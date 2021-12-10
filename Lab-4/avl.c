@@ -135,3 +135,106 @@ void preorder(NODE root)
 
 }
 NODE deletenode(NODE root,int key)
+{
+    if(root==NULL)
+    return root;
+
+    if(key<root->key)
+    root->left=deletenode(root->left,key);
+
+    else if(key>root->key)
+    root->right=deletenode(root->right,key);
+
+    else
+    {
+
+        if(root->left==NULL || root->right==NULL)
+        {
+
+           NODE temp=root->left?root->left:root->right;
+
+           if(temp==NULL)
+           {
+              temp=root;
+              root=NULL;
+           }
+           else
+           {
+              *root=*temp;
+           }
+           free(temp);
+        }
+        else
+        {
+            NODE temp=minvalenode(root->right);
+            root->key=temp->key;
+            root->right=deletenode(root->right,temp->key);
+        }
+
+
+    }
+    if(root==NULL)
+    return root;
+
+    root->height=max(height(root->left),height(root->right))+1;
+
+    int balance=getbalance(root);
+
+    if(balance>1 && getbalance(root->left)>=0)
+    {
+       return rightrotate(root);
+    }
+    if(balance>1 && getbalance(root->left)<0)
+    {
+       root->left=leftrotate(root->left);
+       return rightrotate(root);
+    }
+    if(balance<-1 && getbalance(root->right)<=0)
+    {
+       return leftrotate(root);
+    }
+    if(balance<-1 && getbalance(root->right)>0)
+    {
+        root->right=rightrotate(root->right);
+        return leftrotate(root);
+    }
+
+    return root;
+}
+int main()
+{
+
+     NODE root=NULL;
+     int choice,key;
+
+     do
+     {
+        printf("\n");
+
+        printf("1:INSERT\n");
+        printf("2:PREORDER\n");
+        printf("3:DELETE\n");
+        printf("Enter your choice\n");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+
+            case 1:
+            printf("Enter the key you want to insert\n");
+            scanf("%d",&key);
+            root=insert(root,key);
+            break;
+
+            case 2:
+            preorder(root);
+            break;
+
+            case 3:
+            printf("Enter the key you want to delete\n");
+            scanf("%d",&key);
+            root=deletenode(root,key);
+            break;
+        }
+
+     }while(choice!=4);
+}
