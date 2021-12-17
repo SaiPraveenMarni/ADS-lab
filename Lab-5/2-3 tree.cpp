@@ -19,7 +19,8 @@ class Tree{
 	TreeNode *root = NULL;
 	public:
 		void traverse() {
-			if(root != NULL) root->traverse();
+	        if(root != NULL) 
+                root->traverse();
 		}
 		void insert(int k);
 		void remove(int k);
@@ -80,12 +81,16 @@ void TreeNode::splitChild(int i, TreeNode *y) {
 	TreeNode *z = new TreeNode(y -> leaf);
 	z -> n = 1;
 	z -> keys[0] = y -> keys[2];
-	if(y -> leaf == false) for(int j = 0; j < 2; j++) z -> child[j] = y -> child[j + 2];
+	if(y -> leaf == false) 
+        for(int j = 0; j < 2; j++) 
+        z -> child[j] = y -> child[j + 2];
 
 	y -> n = 1;
-	for(int j = n; j >= i + 1; j--) child[j + 1] = child[j];
+	for(int j = n; j >= i + 1; j--) 
+        child[j + 1] = child[j];
 	child[i + 1] = z;
-	for (int j = n - 1; j >= i; j--) keys[j+1] = keys[j]; 
+	for (int j = n - 1; j >= i; j--) 
+        keys[j+1] = keys[j]; 
   
     	keys[i] = y -> keys[1]; 
  
@@ -96,7 +101,8 @@ void TreeNode::traverse() {
 	cout << "\n";
 	int i;
 	for(i = 0; i < n; i++) {
-		if(leaf == false) child[i] -> traverse();
+		if(leaf == false) 
+                child[i] -> traverse();
 		cout << " " << keys[i];
 	}
 	if(leaf == false)
